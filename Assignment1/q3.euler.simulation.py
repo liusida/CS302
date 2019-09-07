@@ -29,7 +29,7 @@ def Experiment(h=1.0, growth_ratio=0.2, capacity=10, N_init=1, total_time=100):
     return df
 
 # Draw 4 simulations
-h=np.array([[0.1,0.5],[1.0,2.0]])
+h=np.array([[0.1,1.0],[5.0,10.0]])
 fig, axes = plt.subplots(nrows=2, ncols=2)
 for i1 in range(2):
     for i2 in range(2):
