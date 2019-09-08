@@ -1,7 +1,15 @@
-import matplotlib.pyplot as plt
+import pandas as pd
+df = pd.DataFrame()
+import numpy as np
+class A:
+    def __init__(self, state_variables=[0,0,0]):
+        self.a = np.array(state_variables)
+        self.b = np.zeros(len(state_variables))
 
-fig, axes = plt.subplots(nrows=3, ncols=3, squeeze=True)
-axes[0,0].plot([1,2,3],[1,2,3],color='#110099')
+a = A()
+a.a[0] = 1
+print(a.a)
+print(a.b)
 
-
-plt.show()
+a = A()
+print(a.a)
