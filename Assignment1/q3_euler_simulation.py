@@ -12,7 +12,7 @@ import pandas as pd
 # This is the definition of the original continuous function for both Euler's and Heun's methods.
 # Here, we implement the logistic growth.
 class LogisticGrowthModel:
-    def __init__(self, boundary=[0,100000], growth_ratio=0.2, capacity=10, X_init=1):
+    def __init__(self, boundary=[0,100000], growth_ratio=0.2, capacity=10., X_init=1.):
         self.boundary = boundary
         self.growth_ratio = growth_ratio
         self.capacity = capacity

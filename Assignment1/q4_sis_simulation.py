@@ -16,7 +16,7 @@ class SISModel:
     # infect_rate: beta
     # recover_rate: gamma
     # X_init: initial susceptible number
-    def __init__(self, boundary=[0,100], total_population=100, infect_rate=0.03, recover_rate=0.25, X_init=1):
+    def __init__(self, boundary=[0.,100.], total_population=100., infect_rate=0.03, recover_rate=0.25, X_init=1.):
         self.boundary = boundary
         self.total_population = total_population
         self.infect_rate = infect_rate
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(14,8))
     for i1 in range(len(h)):
         for i2 in range(len(infect_rates)):
-            sis_model = SISModel(total_population=100, X_init=10, recover_rate=0.25, infect_rate=infect_rates[i2])
+            sis_model = SISModel(total_population=100., X_init=10., recover_rate=0.25, infect_rate=infect_rates[i2])
             df1 = q3.Euler_Method(model=sis_model, h=h[i1], total_time=total_time, max_steps=max_steps)
             df2 = q3.Heun_Method(model=sis_model, h=h[i1], total_time=total_time, max_steps=max_steps)
             q3.draw_subplot(axes[i1,i2], [df1,df2], 'h=%.2f b=%.2f'%(h[i1],infect_rates[i2]), y_max=100)
