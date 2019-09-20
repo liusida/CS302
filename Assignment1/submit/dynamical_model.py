@@ -7,11 +7,9 @@ import pandas as pd
 class DynamicalModel:
     # __init__: initialize the model
     # step_size: aka h, is a control for simulation
-    # boundary: [lower_boundary, higher_boundary], is a restraint to all state_variables
     # state_varibles: initital condition for every state variable. e.g. [0,0,0] means there're three state varibles, and their values are all zero.
-    def __init__(self, step_size=0.01, boundary=[0,0], state_variables=[0,0,0], simulation_method="euler"):
+    def __init__(self, step_size=0.01, state_variables=[0,0,0], simulation_method="euler"):
         self.step_size = float(step_size)
-        self.boundary = np.array(boundary, dtype=float)
         self.initial_condition = np.array(state_variables, dtype=float)
         self.current_step = 0
         self.reset()
@@ -36,7 +34,6 @@ class DynamicalModel:
     def update(self):
         for i, _ in enumerate(self.state_variables):
             self.state_variables[i] = self.state_variables[i] + self.state_increment[i]
-        self.boundary_check()
 
     # observe:store current state variables into data
     # data is stored in the form of pandas.DataFrame:
@@ -69,17 +66,6 @@ class DynamicalModel:
         state_dots = self.continuous_formula(self.state_variables)
         state_variables_approx = self.state_variables + self.step_size * state_dots
         self.state_increment = self.step_size/2 * (state_dots + self.continuous_formula(state_variables_approx))
-
-    # boundary_check: confine state variables in boundary.
-    def boundary_check(self):
-        if (self.boundary[0]==self.boundary[1]):
-            # boundary isn't set, just skip this check
-            return
-        for i, state in enumerate(self.state_variables):
-            if state < self.boundary[0]:
-                self.state_variables[i] = self.boundary[0]
-            if state > self.boundary[1]:
-                self.state_variables[i] = self.boundary[1]
 
     # run_simulation: run it
     # if we call this function multiple times, the system will keep go forward, unless we reset() the system.

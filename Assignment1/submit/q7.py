@@ -15,10 +15,10 @@ class SimpleRumorModel(dynamical_model.DynamicalModel):
     # total_population: N which is the fixed total population A + B + C
     # infectious_rate: beta
     # antirumor_rate: alpha
-    def __init__(self, step_size=1.0, boundary=[0,100], total_population=100, infectious_rate=0.02, antirumor_rate=0.01, initial_population=[1,98,1]):
+    def __init__(self, step_size=1.0, total_population=100, infectious_rate=0.02, antirumor_rate=0.01, initial_population=[1,98,1]):
         # make sure N = A + B + C
         assert(sum(initial_population)==total_population)
-        super().__init__(step_size=step_size, boundary=boundary, state_variables=initial_population)
+        super().__init__(step_size=step_size, state_variables=initial_population)
         self.total_population = float(total_population)
         self.infectious_rate = float(infectious_rate)
         self.antirumor_rate = float(antirumor_rate)
@@ -36,11 +36,6 @@ class SimpleRumorModel(dynamical_model.DynamicalModel):
         state_dots[2] = -a*A*C + b*B*C
         return state_dots
 
-    def boundary_check(self):
-        dynamical_model.DynamicalModel.boundary_check(self)
-        # if there is any modification in boundary check, renormalize the population.
-        self.state_variables = self.state_variables *  (self.total_population/sum(self.state_variables))
-
 
 if __name__ == "__main__":
     fig, axes = plt.subplots(ncols=3, nrows=3, figsize=(14,8))
@@ -50,8 +45,8 @@ if __name__ == "__main__":
     initial_population = [20, 79, 1]
     for i,_ in enumerate(alpha):
         for j,_ in enumerate(beta):
-            model = SimpleRumorModel(step_size=0.2, infectious_rate=alpha[i], antirumor_rate=beta[j], initial_population=initial_population)
-            model.run_simulation(max_step=100)
+            model = SimpleRumorModel(step_size=0.01, infectious_rate=alpha[i], antirumor_rate=beta[j], initial_population=initial_population)
+            model.run_simulation(max_step=2000)
             df = model.get_data()
             axes[i,j].set_title("alpha=%.2f, beta=%.2f"%(alpha[i],beta[j]))
             axes[i,j].set_ylim([-10,110])

@@ -9,7 +9,7 @@ from matplotlib.lines import Line2D
 
 class SISModel(dynamical_model.DynamicalModel):
     def __init__(self, step_size, total_population, X_init, recover_rate, infect_rate, simulation_method):
-        super().__init__(step_size=step_size, boundary=[0,total_population], state_variables=[X_init], simulation_method=simulation_method)
+        super().__init__(step_size=step_size, state_variables=[X_init], simulation_method=simulation_method)
         self.infect_rate = float(infect_rate)
         self.recover_rate = float(recover_rate)
         self.total_population = float(total_population)
