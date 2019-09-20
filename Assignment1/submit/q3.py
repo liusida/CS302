@@ -2,7 +2,7 @@
 # Euler’s method and Heun’s method
 
 # The core implementation is in dynamical_model.py
-# reusing the basic class DynamicalModel defined in dynamical_model.py
+# reusing the base class DynamicalModel defined in dynamical_model.py
 import dynamical_model
 
 import matplotlib.pyplot as plt
@@ -15,7 +15,8 @@ class LogisticGrowthModel(dynamical_model.DynamicalModel):
         self.growth_ratio = growth_ratio
         self.capacity = capacity
         self.X_init = 1
-    # continuous formula:
+
+    # Override continuous_formula, setting my own ODEs
     # state_dots[0] = dx/dt = ...
     # state_dots[1] = dy/dt = ...
     def continuous_formula(self, state_variables):
@@ -28,6 +29,7 @@ if __name__ == "__main__":
     methods = ["Euler", "Heun"]
     plt.figure(figsize=(14,6))
 
+    # Iterating among different methods and step sizes, making subplots.
     for j in range(len(methods)):
         for i in range(len(h)):
             plt.subplot(len(methods), len(h), j*len(h)+i+1)

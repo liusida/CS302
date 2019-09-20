@@ -1,3 +1,12 @@
+# DynamicalModel
+#   Basic operations generalized into this base class.
+# Usage:
+#   1. Define your own class, inheriting DynamicalModel;
+#   2. Override and extend the __init__(), set your own parameters;
+#   3. Override continuous_formula(), implement your own ODE;
+#   4. Call run_simulation(), run your model;
+#   5. Call run_simulation() again, if you want continue the simulation;
+#   6. Call get_data() get the data after simulation is done.
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -15,13 +24,6 @@ class DynamicalModel:
         self.reset()
         self.simulation_method = simulation_method.lower()
 
-    # reset: erase all data stored, reset the system to initial condition.
-    def reset(self):
-        self.data = pd.DataFrame()
-        self.state_variables = self.initial_condition.copy()
-        self.state_increment = np.zeros_like(self.initial_condition)
-        self.observe()
-
     # continuous_formula: Calculate the dA/dt, dB/dt, ... for each state varible
     # it will be a simple write down of continuous equation
     def continuous_formula(self, state_variables):
@@ -29,6 +31,13 @@ class DynamicalModel:
         assert(False)
         state_dots = np.zeros_like(state_variables)
         return state_dots
+
+    # reset: erase all data stored, reset the system to initial condition.
+    def reset(self):
+        self.data = pd.DataFrame()
+        self.state_variables = self.initial_condition.copy()
+        self.state_increment = np.zeros_like(self.initial_condition)
+        self.observe()
 
     # update: simultaneously update all state variables to next step
     def update(self):
@@ -87,7 +96,9 @@ class DynamicalModel:
     def get_data(self):
         return self.data
 
-# constants like plot style and color
+
+# ========================================
+# some constants like plot style and color
 class constant:
     line_styles = ['--', ':', '-.']
     colors = ['#53A567FF', '#56A8CBFF', '#DA291CFF']

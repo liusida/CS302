@@ -1,6 +1,7 @@
 # Question 4
-# continuous SIS model
+# Continuous SIS model
 
+# The core implementation is in dynamical_model.py
 #reusing the basic class DynamicalModel defined in dynamical_model.py
 import dynamical_model
 
@@ -8,12 +9,15 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 class SISModel(dynamical_model.DynamicalModel):
+    # Override __init__, setting my own parameters
     def __init__(self, step_size, total_population, X_init, recover_rate, infect_rate, simulation_method):
         super().__init__(step_size=step_size, state_variables=[X_init], simulation_method=simulation_method)
         self.infect_rate = float(infect_rate)
         self.recover_rate = float(recover_rate)
         self.total_population = float(total_population)
 
+    # Override continuous_formula, setting my own ODEs
+    # state_dots[0] = dS/dt = ...
     def continuous_formula(self, state_variables):
         state_dots = state_variables.copy()
         infectious = state_variables[0]             #<-- Don't use self.state_variables, because in Heun's method we also need to compute F(x_approx) instead of F(x)
@@ -27,6 +31,7 @@ if __name__ == "__main__":
     methods = ["Euler", "Heun"]
     plt.figure(figsize=(14,8))
 
+    # Iterating among parameters, making subplots.
     for i1 in range(len(h)):
         for i2 in range(len(infect_rates)):
             plt.subplot(len(h), len(infect_rates), i1*len(infect_rates)+i2+1)
@@ -42,5 +47,4 @@ if __name__ == "__main__":
     custom_lines = [ Line2D([0], [0], linestyle=dynamical_model.constant.line_styles[i], color=dynamical_model.constant.colors[i], lw=2) for i in range(len(methods)) ]
     plt.figlegend(custom_lines, methods, loc='lower center', ncol=3)
     plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.4, hspace=0.5)
-    
     plt.show()
