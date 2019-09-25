@@ -45,8 +45,8 @@ if __name__ == "__main__":
     initial_population = [20, 79, 1]
     for i,_ in enumerate(alpha):
         for j,_ in enumerate(beta):
-            model = SimpleRumorModel(step_size=0.01, infectious_rate=alpha[i], antirumor_rate=beta[j], initial_population=initial_population)
-            model.run_simulation(max_step=2000)
+            model = SimpleRumorModel(step_size=0.04, infectious_rate=alpha[i], antirumor_rate=beta[j], initial_population=initial_population)
+            model.run_simulation(max_step=500)
             df = model.get_data()
             axes[i,j].set_title("alpha=%.2f, beta=%.2f"%(alpha[i],beta[j]))
             axes[i,j].set_ylim([-10,110])
